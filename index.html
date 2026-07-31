@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="日常">
+  <meta name="theme-color" content="#8BA888">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>日常</title>
+</head>
+<body>
+  <!-- 页面容器 -->
+  <div id="app">
+    <!-- ========== 今日首页 ========== -->
+    <section class="page active" id="page-home">
+      <header class="page-header">
+        <h1 id="home-date"></h1>
+        <p class="page-subtitle" id="home-greeting"></p>
+      </header>
+
+      <!-- 今日名言 -->
+      <div class="quote-card" id="home-quote">
+        <div class="quote-mark">"</div>
+        <p class="quote-text" id="quote-text"></p>
+        <p class="quote-author" id="quote-author"></p>
+      </div>
+
+      <!-- 模块卡片 -->
+      <div class="module-cards">
+        <!-- 运动 -->
+        <div class="module-card" onclick="goTo('exercise')">
+          <div class="module-icon">🏃</div>
+          <div class="module-info">
+            <h3>每日运动</h3>
+            <p id="home-exercise-status">今日尚未打卡</p>
+          </div>
+          <div class="module-arrow">›</div>
+        </div>
+
+        <!-- 英语 -->
+        <div class="module-card" onclick="goTo('english')">
+          <div class="module-icon">📖</div>
+          <div class="module-info">
+            <h3>每日英语</h3>
+            <p id="home-english-status">今日尚未开始</p>
+          </div>
+          <div class="module-arrow">›</div>
+        </div>
+
+        <!-- 饮食 -->
+        <div class="module-card" onclick="goTo('diet')">
+          <div class="module-icon">🍽️</div>
+          <div class="module-info">
+            <h3>每日饮食</h3>
+            <p id="home-diet-status">今日尚未记录</p>
+          </div>
+          <div class="module-arrow">›</div>
+        </div>
+
+        <!-- 阅读 -->
+        <div class="module-card" onclick="goTo('reading')">
+          <div class="module-icon">📚</div>
+          <div class="module-info">
+            <h3>每日阅读</h3>
+            <p id="home-reading-status">今日尚未记录</p>
+          </div>
+          <div class="module-arrow">›</div>
+        </div>
+
+        <!-- 记账 -->
+        <div class="module-card" onclick="goTo('account')">
+          <div class="module-icon">💰</div>
+          <div class="module-info">
+            <h3>每日记账</h3>
+            <p id="home-account-status">今日尚未记账</p>
+          </div>
+          <div class="module-arrow">›</div>
+        </div>
+      </div>
+
+      <!-- 连续打卡 -->
+      <div class="streak-card">
+        <div class="streak-item">
+          <span class="streak-number" id="streak-exercise">0</span>
+          <span class="streak-label">运动连续(天)</span>
+        </div>
+        <div class="streak-divider"></div>
+        <div class="streak-item">
+          <span class="streak-number" id="streak-english">0</span>
+          <span class="streak-label">英语连续(天)</span>
+        </div>
+        <div class="streak-divider"></div>
+        <div class="streak-item">
+          <span class="streak-number" id="streak-total">0</span>
+          <span class="streak-label">总打卡天数</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 运动页 ========== -->
+    <section class="page" id="page-exercise">
+      <header class="page-header">
+        <h1>每日运动</h1>
+        <p class="page-subtitle" id="exercise-date-label"></p>
+      </header>
+
+      <!-- 有氧运动 -->
+      <div class="section-label">
+        <span class="label-dot cardio"></span>
+        <h2>有氧运动</h2>
+      </div>
+      <div class="check-grid" id="cardio-grid"></div>
+
+      <!-- 塑形训练 -->
+      <div class="section-label">
+        <span class="label-dot strength"></span>
+        <h2>塑形训练</h2>
+      </div>
+      <div class="check-grid" id="strength-grid"></div>
+
+      <!-- 月度日历 -->
+      <div class="section-label">
+        <span class="label-dot calendar-dot"></span>
+        <h2 id="calendar-title"></h2>
+      </div>
+      <div class="calendar-controls">
+        <button class="cal-btn" onclick="changeMonth(-1)">‹</button>
+        <span id="cal-month-label"></span>
+        <button class="cal-btn" onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="calendar" id="exercise-calendar"></div>
+      <div class="calendar-legend">
+        <span class="legend-item"><span class="legend-dot cardio"></span>有氧</span>
+        <span class="legend-item"><span class="legend-dot strength"></span>塑形</span>
+        <span class="legend-item"><span class="legend-dot both"></span>双修</span>
+      </div>
+      <p class="calendar-tip">点击日期查看当天打卡详情</p>
+    </section>
+
+    <!-- ========== 英语页 ========== -->
+    <section class="page" id="page-english">
+      <header class="page-header">
+        <h1>每日英语</h1>
+        <p class="page-subtitle">六级口语提升 · 每日20词</p>
+      </header>
+
+      <!-- Tab 切换 -->
+      <div class="eng-tabs">
+        <button class="eng-tab active" data-tab="words" onclick="switchEngTab('words')">背单词</button>
+        <button class="eng-tab" data-tab="test" onclick="switchEngTab('test')">拼写测试</button>
+        <button class="eng-tab" data-tab="speak" onclick="switchEngTab('speak')">口语练习</button>
+      </div>
+
+      <!-- 词库选择 -->
+      <div class="bank-selector">
+        <span class="bank-label">词库：</span>
+        <button class="bank-btn" data-bank="cet4" onclick="switchWordBank('cet4')">四级</button>
+        <button class="bank-btn active" data-bank="cet6" onclick="switchWordBank('cet6')">六级</button>
+        <button class="bank-btn" data-bank="ielts" onclick="switchWordBank('ielts')">雅思</button>
+        <span class="bank-count" id="bank-count"></span>
+      </div>
+
+      <!-- 背单词 -->
+      <div class="eng-panel active" id="eng-panel-words">
+        <div class="word-progress">
+          <span id="word-progress-text">1 / 20</span>
+          <div class="progress-bar"><div class="progress-fill" id="word-progress-bar"></div></div>
+        </div>
+        <div class="word-card" id="word-card">
+          <p class="word-en" id="word-en"></p>
+          <p class="word-phonetic" id="word-phonetic"></p>
+          <p class="word-cn" id="word-cn"></p>
+          <div class="word-example">
+            <p class="example-en" id="word-example-en"></p>
+            <p class="example-cn" id="word-example-cn"></p>
+          </div>
+          <div class="word-actions">
+            <button class="btn-secondary" onclick="prevWord()">上一个</button>
+            <button class="btn-primary" onclick="nextWord()">认识 ✓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 拼写测试 -->
+      <div class="eng-panel" id="eng-panel-test">
+        <p class="test-hint">根据中文意思拼写英文单词</p>
+        <div class="test-card">
+          <p class="test-word-cn" id="test-word-cn"></p>
+          <input type="text" class="test-input" id="test-input" placeholder="在此输入..." autocomplete="off" autocapitalize="off" autocorrect="off">
+          <p class="test-feedback" id="test-feedback"></p>
+          <div class="test-actions">
+            <button class="btn-secondary" onclick="skipWord()">跳过</button>
+            <button class="btn-primary" onclick="submitTest()">提交</button>
+          </div>
+          <p class="test-score" id="test-score"></p>
+        </div>
+      </div>
+
+      <!-- 口语练习 -->
+      <div class="eng-panel" id="eng-panel-speak">
+        <div class="passage-card">
+          <div class="passage-header">
+            <span class="passage-tag" id="passage-type"></span>
+            <h3 id="passage-title"></h3>
+          </div>
+          <p class="passage-source" id="passage-source"></p>
+          <p class="passage-en" id="passage-en"></p>
+          <div class="passage-audio">
+            <button class="speak-btn" onclick="speakPassage(0.8)">慢速朗读</button>
+            <button class="speak-btn" onclick="speakPassage(1)">正常语速</button>
+            <button class="speak-btn speak-stop" onclick="stopSpeaking()">停止</button>
+          </div>
+          <details class="passage-translation">
+            <summary>查看中文翻译</summary>
+            <p id="passage-zh"></p>
+          </details>
+          <div class="passage-tips">
+            <p>💡 复述步骤：</p>
+            <ol>
+              <li>通读英文段落 2-3 遍</li>
+              <li>理解整体含义，不要逐字翻译</li>
+              <li>合上手机，尝试用自己的话复述</li>
+              <li>对照原文，找出遗漏的关键句</li>
+              <li>再次复述，直到流畅自然</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 饮食页 ========== -->
+    <section class="page" id="page-diet">
+      <header class="page-header">
+        <h1>每日饮食</h1>
+        <p class="page-subtitle" id="diet-date-label"></p>
+      </header>
+
+      <!-- 三餐拍照 -->
+      <div class="meal-section">
+        <h2 class="section-title">今日三餐</h2>
+        <div class="meal-cards">
+          <div class="meal-card" id="meal-breakfast">
+            <div class="meal-upload" onclick="uploadMeal('breakfast')">
+              <span class="meal-emoji">☀️</span>
+              <span class="meal-name">早餐</span>
+              <span class="meal-hint">点击拍照</span>
+            </div>
+            <img class="meal-photo" id="meal-photo-breakfast" onclick="uploadMeal('breakfast')" style="display:none;">
+          </div>
+          <div class="meal-card" id="meal-lunch">
+            <div class="meal-upload" onclick="uploadMeal('lunch')">
+              <span class="meal-emoji">🌿</span>
+              <span class="meal-name">午餐</span>
+              <span class="meal-hint">点击拍照</span>
+            </div>
+            <img class="meal-photo" id="meal-photo-lunch" onclick="uploadMeal('lunch')" style="display:none;">
+          </div>
+          <div class="meal-card" id="meal-dinner">
+            <div class="meal-upload" onclick="uploadMeal('dinner')">
+              <span class="meal-emoji">🌙</span>
+              <span class="meal-name">晚餐</span>
+              <span class="meal-hint">点击拍照</span>
+            </div>
+            <img class="meal-photo" id="meal-photo-dinner" onclick="uploadMeal('dinner')" style="display:none;">
+          </div>
+        </div>
+      </div>
+
+      <!-- 喝水追踪 -->
+      <div class="water-section">
+        <h2 class="section-title">每日饮水 <span class="water-target">2000ml</span></h2>
+        <div class="water-display">
+          <span class="water-count" id="water-count">0</span>
+          <span class="water-unit">ml</span>
+        </div>
+        <div class="water-cups" id="water-cups"></div>
+        <div class="water-actions">
+          <button class="water-btn" onclick="addWater(200)">+200ml</button>
+          <button class="water-btn" onclick="addWater(250)">+250ml</button>
+          <button class="water-btn water-reset" onclick="resetWater()">重置</button>
+        </div>
+      </div>
+
+      <!-- 体重记录 -->
+      <div class="weight-section">
+        <h2 class="section-title">体重记录</h2>
+        <div class="weight-input-row">
+          <input type="number" class="weight-input" id="weight-input" placeholder="输入体重(kg)" step="0.1">
+          <button class="btn-primary btn-small" onclick="saveWeight()">记录</button>
+        </div>
+        <div class="weight-chart-container">
+          <canvas id="weight-chart" width="320" height="180"></canvas>
+        </div>
+        <p class="weight-latest" id="weight-latest"></p>
+      </div>
+    </section>
+
+    <!-- ========== 阅读页 ========== -->
+    <section class="page" id="page-reading">
+      <header class="page-header">
+        <h1>每日阅读</h1>
+        <p class="page-subtitle">记录每天的阅读时光</p>
+      </header>
+
+      <!-- 今日记录 -->
+      <div class="reading-form">
+        <h2 class="section-title">今日阅读</h2>
+        <div class="form-group">
+          <label>书名</label>
+          <input type="text" id="reading-book" placeholder="在读什么书？">
+        </div>
+        <div class="form-group">
+          <label>阅读页数</label>
+          <input type="number" id="reading-pages" placeholder="今天读了多少页？" min="0">
+        </div>
+        <div class="form-group">
+          <label>一句话感想</label>
+          <textarea id="reading-note" placeholder="今天有什么感悟？" rows="3"></textarea>
+        </div>
+        <button class="btn-primary btn-full" onclick="saveReading()">保存今日记录</button>
+      </div>
+
+      <!-- 阅读历史 -->
+      <div class="reading-history">
+        <h2 class="section-title">阅读记录</h2>
+        <div id="reading-list"></div>
+      </div>
+    </section>
+
+    <!-- ========== 记账页 ========== -->
+    <section class="page" id="page-account">
+      <header class="page-header">
+        <h1>每日记账</h1>
+        <p class="page-subtitle" id="account-month-label"></p>
+      </header>
+
+      <!-- 本月概览 -->
+      <div class="account-summary">
+        <div class="summary-card income">
+          <span class="summary-label">本月收入</span>
+          <span class="summary-amount" id="month-income">¥0</span>
+        </div>
+        <div class="summary-card expense">
+          <span class="summary-label">本月支出</span>
+          <span class="summary-amount" id="month-expense">¥0</span>
+        </div>
+      </div>
+
+      <!-- 添加记录 -->
+      <div class="account-form">
+        <div class="account-type-switch">
+          <button class="type-btn active" data-type="expense" onclick="switchAccType('expense')">支出</button>
+          <button class="type-btn" data-type="income" onclick="switchAccType('income')">收入</button>
+        </div>
+        <div class="form-group">
+          <label>金额</label>
+          <input type="number" id="account-amount" placeholder="0.00" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>分类</label>
+          <div class="category-grid" id="category-grid"></div>
+        </div>
+        <div class="form-group">
+          <label>备注</label>
+          <input type="text" id="account-note" placeholder="可选备注">
+        </div>
+        <button class="btn-primary btn-full" onclick="saveAccount()">添加记录</button>
+      </div>
+
+      <!-- 今日明细 -->
+      <div class="account-list-section">
+        <h2 class="section-title">今日明细</h2>
+        <div id="account-today-list" class="account-list"></div>
+      </div>
+
+      <!-- 月度分类饼图 -->
+      <div class="pie-chart-section">
+        <h2 class="section-title">本月支出分布</h2>
+        <div class="pie-chart-container">
+          <canvas id="pie-chart" width="260" height="260"></canvas>
+        </div>
+        <div class="pie-legend" id="pie-legend"></div>
+      </div>
+
+      <!-- 本月明细 -->
+      <div class="account-list-section">
+        <h2 class="section-title">本月明细</h2>
+        <div id="account-month-list" class="account-list"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 底部导航栏 -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" data-page="home" onclick="goTo('home')">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">今日</span>
+    </div>
+    <div class="nav-item" data-page="exercise" onclick="goTo('exercise')">
+      <span class="nav-icon">🏃</span>
+      <span class="nav-label">运动</span>
+    </div>
+    <div class="nav-item" data-page="english" onclick="goTo('english')">
+      <span class="nav-icon">📖</span>
+      <span class="nav-label">英语</span>
+    </div>
+    <div class="nav-item" data-page="diet" onclick="goTo('diet')">
+      <span class="nav-icon">🍽️</span>
+      <span class="nav-label">饮食</span>
+    </div>
+    <div class="nav-item" data-page="more" onclick="goTo('more')">
+      <span class="nav-icon">✨</span>
+      <span class="nav-label">更多</span>
+    </div>
+  </nav>
+
+  <!-- 更多面板（弹出） -->
+  <div class="more-panel" id="more-panel">
+    <div class="more-overlay" onclick="closeMore()"></div>
+    <div class="more-content">
+      <h2>更多功能</h2>
+      <div class="more-item" onclick="goTo('reading'); closeMore();">
+        <span class="more-icon">📚</span>
+        <span>每日阅读</span>
+      </div>
+      <div class="more-item" onclick="goTo('account'); closeMore();">
+        <span class="more-icon">💰</span>
+        <span>每日记账</span>
+      </div>
+      <div class="more-item" onclick="showAllQuotes();">
+        <span class="more-icon">💭</span>
+        <span>名言集</span>
+      </div>
+      <div class="more-item" onclick="exportData();">
+        <span class="more-icon">📤</span>
+        <span>导出数据</span>
+      </div>
+      <div class="more-item" onclick="importData();">
+        <span class="more-icon">📥</span>
+        <span>导入数据</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 名言集弹窗 -->
+  <div class="modal" id="quote-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>名言集</h2>
+        <button class="modal-close" onclick="closeModal('quote-modal')">×</button>
+      </div>
+      <div class="modal-body" id="quote-list-modal"></div>
+    </div>
+  </div>
+
+  <!-- 运动日历详情弹窗 -->
+  <div class="modal" id="day-detail-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="day-detail-title"></h2>
+        <button class="modal-close" onclick="closeModal('day-detail-modal')">×</button>
+      </div>
+      <div class="modal-body" id="day-detail-body"></div>
+    </div>
+  </div>
+
+  <!-- 图片上传隐藏input -->
+  <input type="file" id="meal-file-input" accept="image/*" capture="environment" style="display:none;">
+  <!-- 数据导入隐藏input -->
+  <input type="file" id="import-file-input" accept=".json" style="display:none;">
+
+  <!-- 隐藏的食物图片大图查看 -->
+  <div class="image-viewer" id="image-viewer" onclick="closeImageViewer()">
+    <img id="image-viewer-img" src="">
+  </div>
+
+  <!-- Toast 提示 -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Scripts -->
+  <script src="js/data/words.js"></script>
+  <script src="js/data/passages.js"></script>
+  <script src="js/data/quotes.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/exercise.js"></script>
+  <script src="js/english.js"></script>
+  <script src="js/diet.js"></script>
+  <script src="js/reading.js"></script>
+  <script src="js/account.js"></script>
+  <script src="js/quote.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
