@@ -1666,3 +1666,157 @@ body {
   font-size: 0.85rem;
   padding: 20px 0;
 }
+
+/* ========== 人体可视化塑形 ========== */
+.body-view-toggle {
+  margin-left: auto;
+  background: var(--bg-warm);
+  border: 1px solid var(--beige);
+  color: var(--sage-dark);
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.body-view-toggle:active {
+  transform: scale(0.95);
+}
+
+.body-map-container {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 16px 12px 8px;
+  margin-bottom: 12px;
+  box-shadow: var(--card-shadow);
+}
+
+.body-svg-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.body-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 人体轮廓 */
+.body-outline {
+  fill: var(--bg-warm);
+  stroke: var(--beige);
+  stroke-width: 0.4;
+  stroke-linejoin: round;
+}
+
+/* 解剖参考线 */
+.anatomy-line {
+  stroke: var(--beige);
+  stroke-width: 0.3;
+  opacity: 0.5;
+}
+
+/* 标注点 */
+.body-dot {
+  fill: var(--sage-light);
+  stroke: var(--sage-dark);
+  stroke-width: 0.4;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.body-dot.some-done {
+  fill: var(--matcha);
+}
+
+.body-dot.all-done {
+  fill: var(--sage-dark);
+}
+
+.body-dot.selected {
+  fill: var(--sage-dark);
+  stroke: var(--brown);
+  stroke-width: 0.6;
+  filter: drop-shadow(0 0 2px rgba(107, 142, 90, 0.4));
+}
+
+/* 点击热区 */
+.body-hotspot {
+  cursor: pointer;
+}
+
+/* body-region-group hover */
+.body-region-group .body-hotspot:hover ~ .body-dot,
+.body-region-group:hover .body-dot {
+  r: 3.8;
+  filter: brightness(1.1);
+}
+
+/* 标注线 */
+.body-label-line {
+  stroke: var(--gray);
+  stroke-width: 0.2;
+  opacity: 0.6;
+}
+
+/* 标注文字 */
+.body-label-text {
+  font-size: 2px;
+  fill: var(--brown-light);
+  font-family: -apple-system, 'PingFang SC', sans-serif;
+  pointer-events: none;
+}
+
+/* 统计 */
+.body-stats {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--sage-dark);
+  padding: 8px 0 4px;
+  font-weight: 600;
+}
+
+/* 选中区域训练面板 */
+.body-region-panel {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--card-shadow);
+  min-height: 60px;
+}
+
+.body-region-hint {
+  text-align: center;
+  color: var(--gray);
+  font-size: 0.85rem;
+  padding: 8px 0;
+}
+
+.region-panel-header {
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--beige);
+}
+
+.region-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.05rem;
+  color: var(--sage-dark);
+  margin: 0 0 4px;
+}
+
+.region-anatomy {
+  font-size: 0.75rem;
+  color: var(--gray);
+  margin: 0;
+}
+
+.region-check-list .check-item {
+  margin-bottom: 8px;
+}

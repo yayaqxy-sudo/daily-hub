@@ -115,12 +115,19 @@
       </div>
       <div class="check-grid" id="cardio-grid"></div>
 
-      <!-- 塑形训练 -->
+      <!-- 塑形训练 - 人体可视化 -->
       <div class="section-label">
         <span class="label-dot strength"></span>
         <h2>塑形训练</h2>
+        <button class="body-view-toggle" id="body-view-toggle" onclick="toggleBodyView()">查看背面</button>
       </div>
-      <div class="check-grid" id="strength-grid"></div>
+      <div class="body-map-container" id="body-map-container">
+        <!-- SVG人体图会由JS渲染 -->
+      </div>
+      <!-- 选中的身体区域训练面板 -->
+      <div class="body-region-panel" id="body-region-panel">
+        <p class="body-region-hint">👆 点击身体上的高亮区域选择训练</p>
+      </div>
 
       <!-- 月度日历 -->
       <div class="section-label">
