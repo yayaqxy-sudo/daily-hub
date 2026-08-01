@@ -1,4 +1,4 @@
-const CACHE_NAME = 'daily-hub-v1';
+const CACHE_NAME = 'daily-hub-v2';
 const CACHE_ASSETS = [
   './',
   './index.html',
