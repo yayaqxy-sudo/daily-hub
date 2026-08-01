@@ -1696,11 +1696,12 @@ body {
 .body-image-wrap {
   position: relative;
   width: 100%;
-  max-width: 360px;
+  max-width: 380px;
   margin: 0 auto;
   background: linear-gradient(135deg, #F7F3ED 0%, #EFEAE0 100%);
   border-radius: 12px;
-  overflow: hidden;
+  overflow: visible;
+  padding-bottom: 6px;
 }
 
 .body-image {
@@ -1709,48 +1710,153 @@ body {
   display: block;
   user-select: none;
   pointer-events: none;
+  border-radius: 12px;
 }
 
-/* 热点 */
-.body-dot {
+/* SVG 标注层（覆盖在图片上） */
+.body-labels-svg {
   position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(139, 168, 136, 0.45) 0%, rgba(139, 168, 136, 0.15) 70%, transparent 100%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* SVG 圆点热点 */
+.body-labels-svg circle.body-dot {
+  fill: rgba(139, 168, 136, 0.55);
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-width: 0.3;
   cursor: pointer;
-  transition: all 0.25s;
   pointer-events: auto;
+  transition: all 0.25s;
   animation: dotPulse 2s ease-in-out infinite;
-  border: 1.5px solid rgba(255, 255, 255, 0.7);
 }
 
 @keyframes dotPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(139, 168, 136, 0.5); }
-  50% { box-shadow: 0 0 0 6px rgba(139, 168, 136, 0); }
+  0%, 100% {
+    fill-opacity: 0.45;
+    r: attr(r);
+  }
+  50% {
+    fill-opacity: 0.85;
+  }
 }
 
-.body-dot:hover {
-  background: radial-gradient(circle, rgba(107, 142, 90, 0.6) 0%, rgba(107, 142, 90, 0.25) 70%, transparent 100%);
-  transform: translate(-50%, -50%) scale(1.15) !important;
+.body-labels-svg circle.body-dot:hover {
+  fill: rgba(107, 142, 90, 0.8);
+  stroke-width: 0.4;
 }
 
-.body-dot.some-done {
-  background: radial-gradient(circle, rgba(147, 167, 107, 0.7) 0%, rgba(147, 167, 107, 0.3) 70%, transparent 100%);
+.body-labels-svg circle.body-dot.some-done {
+  fill: rgba(122, 146, 102, 0.75);
   animation: none;
 }
 
-.body-dot.all-done {
-  background: radial-gradient(circle, rgba(74, 100, 60, 0.85) 0%, rgba(107, 142, 90, 0.4) 70%, transparent 100%);
-  border-color: rgba(255, 255, 255, 0.95);
+.body-labels-svg circle.body-dot.all-done {
+  fill: rgba(74, 100, 60, 0.9);
+  stroke: white;
   animation: none;
 }
 
-.body-dot.selected {
-  background: radial-gradient(circle, rgba(232, 168, 124, 0.85) 0%, rgba(232, 168, 124, 0.4) 70%, transparent 100%);
-  border-color: white;
-  border-width: 2px;
-  transform: translate(-50%, -50%) scale(1.2) !important;
+.body-labels-svg circle.body-dot.selected {
+  fill: rgba(217, 124, 90, 0.9);
+  stroke: white;
+  stroke-width: 0.4;
+  filter: drop-shadow(0 0 1.5px rgba(217, 124, 90, 0.7));
   animation: none;
-  box-shadow: 0 0 16px rgba(232, 168, 124, 0.6);
+}
+
+/* HTML 文字标签层 */
+.body-label {
+  position: absolute;
+  z-index: 3;
+  pointer-events: auto;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(139, 168, 136, 0.3);
+  white-space: nowrap;
+  transition: all 0.2s;
+  transform: translate(0, -50%);
+}
+
+.body-label.left {
+  transform: translate(-100%, -50%);
+}
+
+.body-label.right {
+  transform: translate(0, -50%);
+}
+
+.body-label .label-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sage);
+  flex-shrink: 0;
+}
+
+.body-label .label-text {
+  font-size: 0.7rem;
+  color: var(--sage-dark);
+  font-weight: 500;
+}
+
+.body-label:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--sage);
+  transform: translate(0, -50%) scale(1.05);
+}
+
+.body-label.left:hover {
+  transform: translate(-100%, -50%) scale(1.05);
+}
+
+.body-label.some-done {
+  background: rgba(243, 247, 232, 0.95);
+  border-color: rgba(122, 146, 102, 0.5);
+}
+
+.body-label.some-done .label-dot {
+  background: var(--matcha);
+}
+
+.body-label.all-done {
+  background: rgba(232, 240, 220, 0.95);
+  border-color: rgba(74, 100, 60, 0.5);
+}
+
+.body-label.all-done .label-dot {
+  background: var(--sage-dark);
+}
+
+.body-label.selected {
+  background: rgba(255, 240, 230, 0.95);
+  border-color: rgba(217, 124, 90, 0.6);
+  box-shadow: 0 2px 8px rgba(217, 124, 90, 0.2);
+}
+
+.body-label.selected .label-dot {
+  background: var(--accent);
+}
+
+/* 小屏幕适配 */
+@media (max-width: 380px) {
+  .body-label .label-text {
+    font-size: 0.65rem;
+  }
+  .body-label {
+    padding: 1px 6px;
+  }
 }
 
 .body-stats {

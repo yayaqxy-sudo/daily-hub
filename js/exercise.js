@@ -10,39 +10,40 @@ const ExerciseModule = {
   ],
 
   // 塑形训练 - 按身体区域分组
-  // 每个区域映射到人体图上的一个热点 (x%, y%, 半径%)
+  // 坐标(x%, y%)匹配 viewBox 100x125（图片4:5比例），引线终点(lx%, ly%)
   bodyRegions: [
+    // ===== 正面区域 =====
     {
       id: 'face',
       label: '面部',
       anatomy: '咬肌 / 面部表情肌',
       view: 'front',
       items: ['瘦脸操'],
-      x: 50, y: 9, r: 5
+      x: 50, y: 7, lx: 86, ly: 7
     },
     {
       id: 'neck',
-      label: '颈椎 / 脖子',
-      anatomy: '颈椎 / 胸锁乳突肌 / 斜角肌',
+      label: '颈椎',
+      anatomy: '颈椎 / 胸锁乳突肌',
       view: 'front',
       items: ['肩颈训练', '改善脖子前倾'],
-      x: 50, y: 14, r: 5
+      x: 50, y: 16, lx: 14, ly: 16
     },
     {
       id: 'shoulder-l',
-      label: '左肩',
-      anatomy: '三角肌前束 / 中束 / 肩袖肌群',
+      label: '肩部',
+      anatomy: '三角肌 / 肩袖肌群',
       view: 'front',
       items: ['肩部力量训练'],
-      x: 36, y: 22, r: 5
+      x: 40, y: 23, lx: 13, ly: 23
     },
     {
       id: 'shoulder-r',
-      label: '右肩',
-      anatomy: '三角肌前束 / 中束 / 肩袖肌群',
+      label: '肩部',
+      anatomy: '三角肌 / 肩袖肌群',
       view: 'front',
       items: ['肩部力量训练'],
-      x: 64, y: 22, r: 5
+      x: 60, y: 23, lx: 87, ly: 23
     },
     {
       id: 'chest',
@@ -50,23 +51,23 @@ const ExerciseModule = {
       anatomy: '胸大肌 / 胸小肌',
       view: 'front',
       items: ['胸部力量训练'],
-      x: 50, y: 26, r: 6
+      x: 50, y: 30, lx: 87, ly: 30
     },
     {
       id: 'arms-l',
-      label: '左臂',
-      anatomy: '肱二头肌 / 肱三头肌 / 前臂肌群',
+      label: '手臂',
+      anatomy: '肱二头肌 / 肱三头肌',
       view: 'front',
       items: ['大臂小臂训练'],
-      x: 28, y: 33, r: 5
+      x: 32, y: 42, lx: 13, ly: 42
     },
     {
       id: 'arms-r',
-      label: '右臂',
-      anatomy: '肱二头肌 / 肱三头肌 / 前臂肌群',
+      label: '手臂',
+      anatomy: '肱二头肌 / 肱三头肌',
       view: 'front',
       items: ['大臂小臂训练'],
-      x: 72, y: 33, r: 5
+      x: 68, y: 42, lx: 87, ly: 42
     },
     {
       id: 'waist',
@@ -74,31 +75,49 @@ const ExerciseModule = {
       anatomy: '腹外斜肌 / 腹内斜肌',
       view: 'front',
       items: ['沙漏腰训练'],
-      x: 50, y: 41, r: 6
+      x: 42, y: 52, lx: 13, ly: 52
     },
     {
       id: 'core',
-      label: '核心 / 腹部',
+      label: '核心',
       anatomy: '腹直肌 / 腹横肌',
       view: 'front',
       items: ['死虫式训练', '腹横肌呼吸训练', '核心力量训练'],
-      x: 50, y: 47, r: 7
+      x: 58, y: 52, lx: 87, ly: 52
     },
     {
       id: 'hip',
       label: '髋关节',
-      anatomy: '髂腰肌 / 臀中肌 / 髋关节囊',
+      anatomy: '髂腰肌 / 臀中肌',
       view: 'front',
       items: ['髋关节训练'],
-      x: 50, y: 55, r: 6
+      x: 50, y: 60, lx: 87, ly: 60
     },
     {
+      id: 'thigh',
+      label: '大腿',
+      anatomy: '股四头肌 / 内收肌群',
+      view: 'front',
+      items: ['臀腿力量训练'],
+      x: 38, y: 75, lx: 13, ly: 75
+    },
+    {
+      id: 'shin',
+      label: '小腿',
+      anatomy: '腓肠肌 / 胫骨前肌',
+      view: 'front',
+      items: ['欧阳春晓足弓训练'],
+      x: 42, y: 100, lx: 13, ly: 100
+    },
+
+    // ===== 背面区域 =====
+    {
       id: 'neck-back',
-      label: '颈椎 / 富贵包',
-      anatomy: '颈椎C7-T1 / 斜方肌上束 / 肩胛提肌',
+      label: '颈椎',
+      anatomy: '颈椎C7 / 富贵包',
       view: 'back',
       items: ['改善富贵包'],
-      x: 50, y: 14, r: 5
+      x: 50, y: 16, lx: 14, ly: 16
     },
     {
       id: 'thoracic',
@@ -106,39 +125,47 @@ const ExerciseModule = {
       anatomy: '胸椎T1-T12 / 肋间肌',
       view: 'back',
       items: ['胸椎灵活度训练'],
-      x: 50, y: 22, r: 6
+      x: 50, y: 26, lx: 87, ly: 26
     },
     {
       id: 'traps',
-      label: '斜方肌 / 背部',
-      anatomy: '斜方肌中下束 / 菱形肌 / 背阔肌',
+      label: '斜方肌',
+      anatomy: '斜方肌 / 菱形肌 / 背阔肌',
       view: 'back',
       items: ['背部力量训练'],
-      x: 50, y: 28, r: 7
+      x: 50, y: 32, lx: 13, ly: 32
     },
     {
       id: 'lowerback',
-      label: '腰腹放松',
-      anatomy: '竖脊肌 / 多裂肌 / 腰方肌',
+      label: '腰腹',
+      anatomy: '竖脊肌 / 多裂肌',
       view: 'back',
       items: ['瑜伽球放松腰腹'],
-      x: 50, y: 42, r: 6
+      x: 50, y: 50, lx: 87, ly: 50
     },
     {
       id: 'glutes',
-      label: '臀腿',
-      anatomy: '臀大肌 / 股四头肌 / 腘绳肌',
+      label: '臀部',
+      anatomy: '臀大肌 / 臀中肌',
       view: 'back',
       items: ['臀腿力量训练'],
-      x: 50, y: 60, r: 8
+      x: 50, y: 62, lx: 13, ly: 62
     },
     {
-      id: 'feet',
-      label: '足弓',
-      anatomy: '足底筋膜 / 胫骨后肌',
+      id: 'hamstring',
+      label: '大腿后侧',
+      anatomy: '腘绳肌 / 股二头肌',
+      view: 'back',
+      items: ['髋关节训练'],
+      x: 42, y: 78, lx: 87, ly: 78
+    },
+    {
+      id: 'calf',
+      label: '小腿',
+      anatomy: '腓肠肌 / 比目鱼肌',
       view: 'back',
       items: ['欧阳春晓足弓训练'],
-      x: 50, y: 93, r: 5
+      x: 58, y: 100, lx: 13, ly: 100
     }
   ],
 
@@ -177,7 +204,7 @@ const ExerciseModule = {
     });
   },
 
-  // 渲染人体图 - 基于真实图片
+  // 渲染人体图 - 基于真实图片 + 标注
   renderBodyMap() {
     const container = document.getElementById('body-map-container');
     const todayStr = Storage.today();
@@ -199,7 +226,9 @@ const ExerciseModule = {
     let html = `<div class="body-image-wrap">`;
     html += `<img src="${imgSrc}" class="body-image" alt="人体肌肉解剖图" />`;
 
-    // 叠加热点
+    // SVG 层 - 绘制标注引线（viewBox 匹配图片 4:5 比例）
+    html += `<svg class="body-labels-svg" viewBox="0 0 100 125" preserveAspectRatio="xMidYMid meet">`;
+
     this.bodyRegions.forEach(region => {
       if (region.view !== this.bodyView) return;
 
@@ -212,17 +241,49 @@ const ExerciseModule = {
       else if (hasChecked) dotClass += ' some-done';
       if (isSelected) dotClass += ' selected';
 
-      const size = (region.r || 5) * 2;
-      html += `<div class="${dotClass}"
-                   style="left:${region.x}%;top:${region.y}%;width:${size}%;height:${size}%;transform:translate(-50%,-50%);"
-                   onclick="selectBodyRegion('${region.id}')"
-                   data-label="${region.label}">
-                </div>`;
+      // 绘制引线（从热点到标签位置）
+      const lineColor = isSelected ? '#d97c5a' :
+                        allChecked ? '#4a6b3e' :
+                        hasChecked ? '#7a9266' : '#9ba89b';
+
+      html += `<line x1="${region.x}" y1="${region.y}" x2="${region.lx}" y2="${region.ly}"
+                stroke="${lineColor}" stroke-width="0.25" stroke-dasharray="0.5,0.5" opacity="0.7"/>`;
+
+      // 热点圆点
+      const r = (region.r || 2.2);
+      html += `<circle cx="${region.x}" cy="${region.y}" r="${r}"
+                class="${dotClass}" data-region="${region.id}"
+                onclick="selectBodyRegion('${region.id}')"/>`;
+    });
+
+    html += `</svg>`;
+
+    // HTML 标签层
+    this.bodyRegions.forEach(region => {
+      if (region.view !== this.bodyView) return;
+
+      const hasChecked = region.items.some(item => checkedItems.includes(item));
+      const allChecked = region.items.every(item => checkedItems.includes(item));
+      const isSelected = this.selectedRegion === region.id;
+
+      let labelClass = 'body-label';
+      if (allChecked) labelClass += ' all-done';
+      else if (hasChecked) labelClass += ' some-done';
+      if (isSelected) labelClass += ' selected';
+
+      const align = region.lx < 50 ? 'left' : 'right';
+
+      html += `<div class="${labelClass} ${align}"
+                style="left:${region.lx}%;top:${region.ly}%;"
+                onclick="selectBodyRegion('${region.id}')">
+                <span class="label-dot"></span>
+                <span class="label-text">${region.label}</span>
+              </div>`;
     });
 
     html += `</div>`;
     html += `<div class="body-stats"><span>已完成 ${doneCount} / ${allItems.length} 项</span></div>`;
-    html += `<div class="body-hint">💡 点击身体上的彩色光点选择训练部位</div>`;
+    html += `<div class="body-hint">💡 点击身体部位或对应文字标签查看训练</div>`;
 
     container.innerHTML = html;
     this.renderRegionPanel();
@@ -231,7 +292,7 @@ const ExerciseModule = {
   renderRegionPanel() {
     const panel = document.getElementById('body-region-panel');
     if (!this.selectedRegion) {
-      panel.innerHTML = '<p class="body-region-hint">👆 点击身体上的彩色光点选择训练</p>';
+      panel.innerHTML = '<p class="body-region-hint">👆 点击身体部位或文字标签选择训练</p>';
       return;
     }
 
@@ -242,7 +303,7 @@ const ExerciseModule = {
     const data = Storage.getExerciseByDate(todayStr);
 
     let html = `<div class="region-panel-header">`;
-    html += `<h3 class="region-title">${region.label}</h3>`;
+    html += `<h3 class="region-title">${region.label}训练</h3>`;
     html += `<p class="region-anatomy">${region.anatomy}</p>`;
     html += `</div>`;
     html += `<div class="region-check-list">`;
